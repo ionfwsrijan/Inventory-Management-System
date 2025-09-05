@@ -50,14 +50,14 @@ export default function EditProduct() {
 
   if (!session)
     return (
-      <p style={{ textAlign: "center" }}>
+      <p className="text-center">
         Please <Link href="/auth/login">login</Link> first.
       </p>
     );
 
   return (
     <MagicCard
-      className="!max-w-md !mx-auto !py-8 !px-6 !my-12 !flex !flex-col !bg-[#141414] shadow-2xl"
+      className="magic-card max-w-md w-full mx-auto py-8 px-4 sm:px-6 my-12 flex flex-col bg-[#141414] shadow-2xl"
       gradientSize={200}
       gradientColor="#141414"
       gradientOpacity={0.8}

@@ -19,21 +19,10 @@ export default function Home() {
           content="Manage your products with full authentication and CRUD features."
         />
       </Head>
-      <main
-        style={{
-          minHeight: "80vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "#fff",
-          zIndex: 2,
-          position: "relative",
-        }}
-      >
+      <main className="min-h-[80vh] flex flex-col items-center justify-center text-white z-[2] relative px-2 sm:px-0">
         <SplitText
           text="Complete Inventory Management System"
-          className="text-6xl font-semibold mb-4 text-center text-shadow-custom"
+          className="split-parent text-3xl sm:text-5xl md:text-6xl font-semibold mb-4 text-center text-shadow-custom"
           delay={50}
           duration={0.6}
           ease="power3.out"
@@ -45,21 +34,26 @@ export default function Home() {
           textAlign="center"
           onLetterAnimationComplete={handleAnimationComplete}
         />
-        <p
-          style={{
-            fontSize: "1.25rem",
-            marginBottom: "2rem",
-            textAlign: "center",
-            maxWidth: 600,
-            textShadow: "0 1px 8px #0006",
-          }}
-        >
+        <p className="text-base sm:text-lg mb-8 text-center max-w-xl text-shadow-custom">
           Manage your products with full authentication and CRUD features.
         </p>
         {session ? (
-          <div>
-            <a href="/products" style={{ textDecoration: "none" }}>
-              <RainbowButton size="lg" variant="outline">
+          <div className="w-full flex justify-center">
+            <a
+              href="/products"
+              className="w-full sm:w-auto"
+              style={{ textDecoration: "none" }}
+            >
+              <RainbowButton
+                size="lg"
+                variant="outline"
+                className="rainbow-btn w-full sm:w-auto font-bold"
+                style={{
+                  borderRadius: 12,
+                  fontSize: "1.1rem",
+                  boxShadow: "0 2px 24px #492cff44",
+                }}
+              >
                 Go to Products
               </RainbowButton>
             </a>

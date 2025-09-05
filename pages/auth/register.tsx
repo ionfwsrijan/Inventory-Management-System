@@ -27,7 +27,7 @@ export default function Register() {
 
   return (
     <MagicCard
-      className="!max-w-sm !mx-auto !py-8 !px-4 !my-12 !shadow-2xl !flex !flex-col !bg-[#141414]"
+      className="magic-card max-w-sm w-full mx-auto py-8 px-4 sm:px-6 my-12 shadow-2xl flex flex-col bg-[#141414]"
       gradientSize={200}
       gradientColor="#141414"
       gradientOpacity={0.8}
@@ -69,10 +69,7 @@ export default function Register() {
           required
         />
         <hr className="border-t border-[#4b5563] opacity-60 my-4" />
-        <p
-          className="text-sm text-center text-[#9ca3af] font-medium"
-          style={{ marginBottom: "0.25rem" }}
-        >
+        <p className="text-sm text-center text-[#9ca3af] font-medium mb-1">
           Already a member?{" "}
           <a
             href="/auth/login"
@@ -85,7 +82,7 @@ export default function Register() {
         </p>
         <button
           type="submit"
-          className="py-3 rounded-lg w-full bg-white text-zinc-900 text-md text-semibold border-none hover:bg-black hover:text-[#fff]"
+          className="py-3 rounded-lg w-full bg-white text-zinc-900 text-md font-semibold border-none hover:bg-black hover:text-[#fff]"
         >
           Register
         </button>

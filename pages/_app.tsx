@@ -1,4 +1,5 @@
 import "./styles/global.css";
+import { useEffect, useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import Silk from "../components/Silk/Silk";
@@ -10,14 +11,13 @@ import { useSession, signOut } from "next-auth/react";
 
 function AuthButtons() {
   const { data: session, status } = useSession();
-
-  // status check helps avoid flicker if session is loading
   if (status === "loading") return null;
 
   return session ? (
     <RainbowButton
       size="lg"
       variant="default"
+      className="rainbow-btn w-full sm:w-auto"
       onClick={() => signOut({ callbackUrl: "/" })}
       style={{ cursor: "pointer" }}
     >
@@ -25,7 +25,12 @@ function AuthButtons() {
     </RainbowButton>
   ) : (
     <Link href="/auth/login" passHref>
-      <RainbowButton size="lg" variant="default" asChild>
+      <RainbowButton
+        size="lg"
+        variant="default"
+        asChild
+        className="rainbow-btn w-full sm:w-auto"
+      >
         <span>Login</span>
       </RainbowButton>
     </Link>
@@ -36,30 +41,27 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  // Only pass Home for GooeyNav now; Login/Sign Out moved to AuthButtons
+  // Hide custom cursor on touch/mobile devices
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    const isTouch =
+      typeof window !== "undefined" &&
+      ("ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        ));
+    if (isTouch) setShowCursor(false);
+  }, []);
+
   const items = [{ label: "Home", href: "/" }];
 
   return (
     <SessionProvider session={session}>
-      <div
-        style={{
-          position: "relative",
-          minHeight: "100vh",
-          width: "100vw",
-          overflow: "hidden",
-        }}
-      >
-        <SmoothCursor size={24} />
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            width: "100vw",
-            height: "100vh",
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        >
+      <div className="relative min-h-screen w-full overflow-x-hidden">
+        {showCursor && <SmoothCursor size={24} />}
+        <div className="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
           <Silk
             speed={5}
             scale={1}
@@ -68,20 +70,11 @@ export default function App({
             rotation={0}
           />
         </div>
-        <div
-          style={{
-            position: "fixed",
-            top: 24,
-            right: 32,
-            zIndex: 90,
-            display: "flex",
-            gap: "8px",
-          }}
-        >
+        <div className="fixed top-6 right-2 sm:right-4 z-[90] flex gap-2 sm:gap-4">
           <AuthButtons />
         </div>
-        <div style={{ position: "relative", zIndex: 2 }}>
-          <div style={{ height: "70px", position: "relative" }}>
+        <div className="relative z-[2]">
+          <div className="h-[70px] relative">
             <GooeyNav
               items={items}
               particleCount={15}
@@ -94,8 +87,7 @@ export default function App({
             />
           </div>
         </div>
-        {/* Main app content */}
-        <div style={{ position: "relative", zIndex: 1 }}>
+        <div className="relative z-[1]">
           <Component {...pageProps} />
         </div>
       </div>

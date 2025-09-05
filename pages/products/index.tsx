@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -41,59 +40,28 @@ export default function ProductsPage() {
   if (status === "loading") return <p>Loading...</p>;
   if (!session)
     return (
-      <p style={{ textAlign: "center" }}>
+      <p className="text-center">
         Please <Link href="/auth/login">login</Link> to view your products.
       </p>
     );
 
   return (
-    <div
-      style={{
-        minHeight: "80vh",
-        background: "transparent",
-        color: "#222",
-        padding: "2rem 0",
-        boxSizing: "border-box",
-        overflowX: "hidden", // Prevent scroll
-      }}
-    >
-      <h1
-        style={{
-          fontFamily: "'Montserrat', sans-serif",
-          fontWeight: 700,
-          fontSize: "3rem",
-          marginBottom: "1.5rem",
-          color: "#fff",
-          textAlign: "center",
-          lineHeight: 1.15,
-          letterSpacing: "-0.02em",
-        }}
-      >
+    <div className="min-h-[80vh] w-full bg-transparent text-[#222] py-8 px-2 sm:px-6 box-border overflow-x-hidden">
+      <h1 className="font-montserrat font-bold text-3xl md:text-4xl lg:text-5xl mb-6 text-white text-center leading-tight tracking-tight">
         Inventory Products
       </h1>
-      <div style={{ textAlign: "center" }}>
-        <Link
-          href="/products/new"
-          style={{
-            color: "#0ea5e9",
-            fontWeight: 500,
-            fontSize: "1.1rem",
-          }}
-        >
-          <RainbowButton size="lg" variant="outline" className="text-white">
+      <div className="text-center mb-6">
+        <Link href="/products/new">
+          <RainbowButton
+            size="lg"
+            variant="outline"
+            className="rainbow-btn text-white w-full sm:w-auto"
+          >
             Add a new product
           </RainbowButton>
         </Link>
       </div>
-      <div
-        style={{
-          marginTop: 48,
-          maxWidth: 600,
-          width: "100%",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
+      <div className="mt-8 max-w-lg w-full mx-auto flex flex-col gap-4">
         {loading ? (
           <p>Loading products...</p>
         ) : (
@@ -101,101 +69,34 @@ export default function ProductsPage() {
             {products.map((p) => (
               <div
                 key={p.id}
-                style={{
-                  background: "#fff",
-                  borderRadius: "1.5rem",
-                  boxShadow: "0 8px 32px #0003, 0 1.5px 6px #0001",
-                  padding: "1.5rem 2rem",
-                  minHeight: 80,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1.5rem",
-                  width: "100%",
-                  maxWidth: "100%",
-                  marginBottom: 0,
-                  boxSizing: "border-box",
-                }}
+                className="product-card bg-white rounded-2xl shadow-[0_8px_32px_#0003,0_1.5px_6px_#0001] px-6 py-5 sm:px-8 sm:py-6 min-h-[80px] flex items-center gap-6 w-full max-w-full mb-0 box-border"
               >
-                <div
-                  style={{
-                    minWidth: 56,
-                    minHeight: 56,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "1rem",
-                    background: "#f1f5fd",
-                    flexShrink: 0,
-                  }}
-                >
-                  <span role="img" aria-label="box" style={{ fontSize: 32 }}>
+                <div className="min-w-[56px] min-h-[56px] flex items-center justify-center rounded-xl bg-[#f1f5fd] flex-shrink-0">
+                  <span role="img" aria-label="box" className="text-3xl">
                     📦
                   </span>
                 </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div
-                    style={{
-                      fontWeight: 700,
-                      fontSize: "1.15rem",
-                      color: "#222",
-                      wordBreak: "break-word",
-                    }}
-                  >
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-base md:text-lg text-[#222] break-words">
                     {p.name}
                   </div>
-                  <div
-                    style={{
-                      color: "#475569",
-                      fontSize: "1rem",
-                      marginTop: 4,
-                      wordBreak: "break-word",
-                    }}
-                  >
+                  <div className="text-[#475569] text-sm md:text-base mt-1 break-words">
                     <span>
                       <b>Rs.{p.price}</b> &middot; <b>{p.quantity}</b> in stock
                       &middot; <b>{p.category}</b>
                     </span>
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    marginLeft: 8,
-                    flexShrink: 0,
-                  }}
-                >
+                <div className="flex gap-2 ml-2 flex-shrink-0">
                   <button
                     onClick={() => router.push(`/products/edit/${p.id}`)}
-                    style={{
-                      color: "#fff",
-                      background: "#141414",
-                      fontWeight: 500,
-                      fontSize: "1rem",
-                      border: "none",
-                      borderRadius: 8,
-                      padding: "6px 16px",
-                      cursor: "pointer",
-                      outline: "none",
-                      transition: "background .2s",
-                    }}
+                    className="bg-[#141414] text-white font-medium text-sm md:text-base border-none rounded-lg px-3 py-2 cursor-pointer outline-none transition duration-200 hover:bg-black"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(p.id)}
-                    style={{
-                      color: "#fff",
-                      background: "#141414",
-                      fontWeight: 600,
-                      fontSize: "1rem",
-                      border: "none",
-                      borderRadius: 8,
-                      padding: "6px 16px",
-                      cursor: "pointer",
-                      outline: "none",
-                      transition: "opacity .2s",
-                    }}
+                    className="bg-[#141414] text-white font-semibold text-sm md:text-base border-none rounded-lg px-3 py-2 cursor-pointer outline-none transition duration-200 hover:bg-black"
                   >
                     Delete
                   </button>
