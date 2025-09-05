@@ -21,7 +21,6 @@ body {
   width: 100%;
   box-sizing: border-box;
   overflow-x: clip;
-  /* REMOVED: max-width: 100vw; */
   border: none;
   outline: none;
   background: transparent;
@@ -32,6 +31,22 @@ body {
   cursor: none !important;
 }
 
+/* --- RAINBOW BUTTON ANIMATION --- */
+@keyframes rainbow-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+.rainbow-btn {
+  /* Animate the border gradient */
+  background-size: 200% 200% !important;
+  animation: rainbow-move 3s linear infinite !important;
+}
+
+/* Responsive and utility styles */
 @media (max-width: 1024px) {
   h1,
   .text-6xl {

@@ -4,8 +4,7 @@ import SplitText from "../components/SplitText/SplitText";
 import { RainbowButton } from "../components/magicui/rainbow-button";
 
 export default function Home() {
-  // No need to use session for heading
-  // Only needed for conditional button, if you want to hide/show button based on login
+  const { data: session } = useSession();
 
   const handleAnimationComplete = () => {
     console.log("All letters have animated!");
@@ -32,25 +31,20 @@ export default function Home() {
           position: "relative",
         }}
       >
-        {/* Make heading always big: wrapper div ensures font size */}
-        <div className="w-full">
-          <div className="text-6xl md:text-6xl font-semibold mb-4 text-center text-shadow-custom leading-tight">
-            <SplitText
-              text="Complete Inventory Management System"
-              className="inline" // let parent div control font size!
-              delay={50}
-              duration={0.6}
-              ease="power3.out"
-              splitType="chars"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-              textAlign="center"
-              onLetterAnimationComplete={handleAnimationComplete}
-            />
-          </div>
-        </div>
+        <SplitText
+          text="Complete Inventory Management System"
+          className="text-6xl font-semibold mb-4 text-center text-shadow-custom"
+          delay={50}
+          duration={0.6}
+          ease="power3.out"
+          splitType="chars"
+          from={{ opacity: 0, y: 40 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.1}
+          rootMargin="-100px"
+          textAlign="center"
+          onLetterAnimationComplete={handleAnimationComplete}
+        />
         <p
           style={{
             fontSize: "1.25rem",
@@ -62,17 +56,19 @@ export default function Home() {
         >
           Manage your products with full authentication and CRUD features.
         </p>
-        <div>
-          <a href="/products" style={{ textDecoration: "none" }}>
-            <RainbowButton
-              size="lg"
-              variant="outline"
-              className="px-8 py-3 text-lg"
-            >
-              Go to Products
-            </RainbowButton>
-          </a>
-        </div>
+        {session?.user && (
+          <div>
+            <a href="/products" style={{ textDecoration: "none" }}>
+              <RainbowButton
+                size="lg"
+                variant="outline"
+                className="px-8 py-3 text-lg rainbow-btn"
+              >
+                Go to Products
+              </RainbowButton>
+            </a>
+          </div>
+        )}
       </main>
     </>
   );
