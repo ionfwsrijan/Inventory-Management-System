@@ -3,35 +3,52 @@ import { useEffect, useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import Silk from "../components/Silk/Silk";
-import GooeyNav from "../components/GooeyNav";
 import SmoothCursor from "../components/Cursor/SmoothCursor";
 import { RainbowButton } from "../components/magicui/rainbow-button";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 function AuthButtons() {
-  const { data: session, status } = useSession();
-  if (status === "loading") return null;
+  const { data: session } = useSession();
 
-  return session ? (
-    <RainbowButton
-      size="lg"
-      variant="default"
-      className="rainbow-btn w-full sm:w-auto"
-      onClick={() => signOut({ callbackUrl: "/" })}
-      style={{ cursor: "pointer" }}
-    >
-      Logout
-    </RainbowButton>
+  return session?.user ? (
+    <span>
+      <RainbowButton
+        size="lg"
+        variant="default"
+        asChild
+        className="rainbow-btn !w-auto !flex-none"
+        style={{ cursor: "pointer" }}
+      >
+        <button type="button" onClick={() => signOut({ callbackUrl: "/" })}>
+          Logout
+        </button>
+      </RainbowButton>
+    </span>
   ) : (
     <Link href="/auth/login" passHref>
       <RainbowButton
         size="lg"
         variant="default"
         asChild
-        className="rainbow-btn w-full sm:w-auto"
+        className="rainbow-btn !w-auto !flex-none"
       >
         <span>Login</span>
+      </RainbowButton>
+    </Link>
+  );
+}
+
+function HomeButton() {
+  return (
+    <Link href="/" passHref>
+      <RainbowButton
+        size="lg"
+        variant="default"
+        asChild
+        className="rainbow-btn !w-auto !flex-none"
+      >
+        <span>Home</span>
       </RainbowButton>
     </Link>
   );
@@ -55,8 +72,6 @@ export default function App({
     if (isTouch) setShowCursor(false);
   }, []);
 
-  const items = [{ label: "Home", href: "/" }];
-
   return (
     <SessionProvider session={session}>
       <div className="relative min-h-screen w-full overflow-x-hidden">
@@ -70,22 +85,13 @@ export default function App({
             rotation={0}
           />
         </div>
-        <div className="fixed top-6 right-2 sm:right-4 z-[90] flex gap-2 sm:gap-4">
+        {/* Flex container for Home/Login aligned left and right */}
+        <div className="fixed top-6 left-0 right-0 z-[90] flex justify-between items-center gap-x-4 px-4 sm:px-8">
+          <HomeButton />
           <AuthButtons />
         </div>
         <div className="relative z-[2]">
-          <div className="h-[70px] relative">
-            <GooeyNav
-              items={items}
-              particleCount={15}
-              particleDistances={[90, 10]}
-              particleR={100}
-              initialActiveIndex={0}
-              animationTime={600}
-              timeVariance={300}
-              colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-            />
-          </div>
+          <div className="h-[70px] relative"></div>
         </div>
         <div className="relative z-[1]">
           <Component {...pageProps} />
